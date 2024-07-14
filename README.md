@@ -1,1 +1,5 @@
 # spectral_kutosis
+
+This paper presents a novel method for calculating spectral kurtosis called Frequency Separated Spectral Kurtosis (FSSK) that eliminates the need for Fast Fourier Transform (FFT) by leveraging Software Defined Radio (SDR) technology to directly separate and analyze frequency components. Traditional methods involve converting In-phase and Quadrature (IQ) data using FFT before computing kurtosis, a process that can be computationally intensive and time-consuming. Our approach, however, performs kurtosis analysis on already parsed frequency data, significantly enhancing efficiency.
+
+The primary advantage of this method is the ability to identify Radio Frequency Interference (RFI) in real time, which is critical for applications requiring immediate RFI detection and mitigation. This experiment captures data from radio frequency (RF) sensors deployed at a radio astronomy site. This evaluation aims to detail the implementation of the new method, compare its performance against traditional techniques, and explore its broader implications for real-time spectral analysis.
