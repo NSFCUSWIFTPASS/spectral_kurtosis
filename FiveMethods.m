@@ -42,133 +42,101 @@ NFFT = 256;
 
 % 1. Periodogram-based Spectral Kurtosis (PK)
 [Pxx, F] = pwelch(x, hamming(NFFT), [], NFFT, fs);
-sk_pk = (Pxx.^4) ./ (mean(Pxx).^2); % Compute spectral kurtosis
+sk_pk = (Pxx.^4) ./ (mean(Pxx).^2);
 
 % 2. Periodogram of Squares-based Spectral Kurtosis (PKS)
-x_squared = x.^2; % Square the time series
+x_squared = x.^2;
 [Pxx_squared, F_squared] = pwelch(x_squared, hamming(NFFT), [], NFFT, fs);
 sk_pks = (Pxx_squared.^4) ./ (mean(Pxx_squared).^2);
 
 % 3. Modified Periodogram of Squares-based Spectral Kurtosis (MPKS)
-acf_x = xcov(x_squared, 'biased'); % Estimate autocorrelation function
-sqrt_acf_x = sqrt(abs(acf_x)); % Take square root
+acf_x = xcov(x_squared, 'biased'); 
+sqrt_acf_x = sqrt(abs(acf_x));
 [Pxx_mpks, F_mpks] = pwelch(sqrt_acf_x, hamming(NFFT), [], NFFT, fs);
 sk_mpks = (Pxx_mpks.^4) ./ (mean(Pxx_mpks).^2);
 
 % 4. Cross-Spectral Kurtosis (CSK)
-y = chirp(t, f_min, T, f_max, 'linear') + randn(size(t)); % Second signal
-[Pxy, Fxy] = cpsd(x, y, hamming(NFFT), [], NFFT, fs); % Cross-periodogram
+y = chirp(t, f_min, T, f_max, 'linear') + randn(size(t)); 
+[Pxy, Fxy] = cpsd(x, y, hamming(NFFT), [], NFFT, fs);
 sk_csk = (abs(Pxy).^4) ./ (mean(abs(Pxy)).^2);
 
 % 5. Modified Cross-Spectral Kurtosis (MCSK)
-acf_yx = xcov(x.^2, y.^2, 'biased'); % Cross-autocorrelation function
+acf_yx = xcov(x.^2, y.^2, 'biased'); 
 sqrt_acf_yx = sqrt(abs(acf_yx));
 [Pxx_mcsk, F_mcsk] = pwelch(sqrt_acf_yx, hamming(NFFT), [], NFFT, fs);
 sk_mcsk = (Pxx_mcsk.^4) ./ (mean(Pxx_mcsk).^2);
 
-% Plot all spectral kurtosis methods side by side
+%% **Single Comparison Subplot**
 figure;
-subplot(1,5,1);
-plot(F, sk_pk);
+subplot(2,3,1);
+plot(F, sk_pk, 'b');
 title('PK - Periodogram SK');
 xlabel('Frequency (Hz)');
 ylabel('Kurtosis');
+grid on;
 
-subplot(1,5,2);
-plot(F_squared, sk_pks);
+subplot(2,3,2);
+plot(F_squared, sk_pks, 'r');
 title('PKS - Periodogram of Squares SK');
 xlabel('Frequency (Hz)');
 ylabel('Kurtosis');
+grid on;
 
-subplot(1,5,3);
-plot(F_mpks, sk_mpks);
+subplot(2,3,3);
+plot(F_mpks, sk_mpks, 'm');
 title('MPKS - Modified Periodogram of Squares SK');
 xlabel('Frequency (Hz)');
 ylabel('Kurtosis');
+grid on;
 
-subplot(1,5,4);
-plot(Fxy, sk_csk);
+subplot(2,3,4);
+plot(Fxy, sk_csk, 'g');
 title('CSK - Cross-Spectral SK');
 xlabel('Frequency (Hz)');
 ylabel('Kurtosis');
+grid on;
 
-subplot(1,5,5);
-plot(F_mcsk, sk_mcsk);
+subplot(2,3,5);
+plot(F_mcsk, sk_mcsk, 'k');
 title('MCSK - Modified Cross-Spectral SK');
 xlabel('Frequency (Hz)');
 ylabel('Kurtosis');
+grid on;
 
 sgtitle('Comparison of Spectral Kurtosis Methods');
 
-% Display spectral kurtosis values
-disp('Spectral Kurtosis Values:');
-disp(['PK: ', num2str(mean(sk_pk))]);
-disp(['PKS: ', num2str(mean(sk_pks))]);
-disp(['MPKS: ', num2str(mean(sk_mpks))]);
-disp(['CSK: ', num2str(mean(sk_csk))]);
-disp(['MCSK: ', num2str(mean(sk_mcsk))]);
-
-% Display frequency range covered by each method
-disp('Frequency Ranges:');
-disp(['PWELCH: ', num2str(F(1)), ' Hz to ', num2str(F(end)), ' Hz']);
-disp(['PWELCH of squares: ', num2str(F_squared(1)), ' Hz to ', num2str(F_squared(end)), ' Hz']);
-disp(['MPWELCH: ', num2str(F_mpks(1)), ' Hz to ', num2str(F_mpks(end)), ' Hz']);
-disp(['CWELCH: ', num2str(Fxy(1)), ' Hz to ', num2str(Fxy(end)), ' Hz']);
-disp(['MPCWELCH: ', num2str(F_mcsk(1)), ' Hz to ', num2str(F_mcsk(end)), ' Hz']);
-
-% Display all calculated spectral kurtosis values
-disp('Spectral Kurtosis Values:');
-disp('Periodogram-based Spectral Kurtosis - PK:');
-disp(sk_pk');
-
-disp('Periodogram of Squares - PKS:');
-disp(sk_pks');
-
-disp('Modified Periodogram of Squares - MPKS:');
-disp(sk_mpks');
-
-disp('Cross-Spectral Kurtosis - CSK:');
-disp(sk_csk');
-
-disp('Modified Cross-Spectral Kurtosis - MCSK:');
-disp(sk_mcsk');
-
-% 1. Plot Periodogram-based Spectral Kurtosis (PK)
+%% **Separate Figures for Each Method**
 figure;
-plot(F, Pxx);
-xlabel('Frequency (Hz)');
-ylabel('Power Spectral Density');
+plot(F, sk_pk, 'b');
 title('Periodogram-based Spectral Kurtosis (PK)');
+xlabel('Frequency (Hz)');
+ylabel('Kurtosis');
 grid on;
 
-% 2. Plot Periodogram of Squares (PKS)
 figure;
-plot(F_squared, Pxx_squared);
+plot(F_squared, sk_pks, 'r');
+title('Periodogram of Squares-based Spectral Kurtosis (PKS)');
 xlabel('Frequency (Hz)');
-ylabel('Power Spectral Density');
-title('Periodogram of Squares (PKS)');
+ylabel('Kurtosis');
 grid on;
 
-% 3. Plot Modified Periodogram of Squares (MPKS)
 figure;
-plot(F_mpks, Pxx_mpks);
+plot(F_mpks, sk_mpks, 'm');
+title('Modified Periodogram of Squares-based Spectral Kurtosis (MPKS)');
 xlabel('Frequency (Hz)');
-ylabel('Power Spectral Density');
-title('Modified Periodogram of Squares (MPKS)');
+ylabel('Kurtosis');
 grid on;
 
-% 4. Plot Cross-Spectral Kurtosis (CSK)
-figure; % Create a new figure window
-plot(Fxy, abs(Pxy)); % Take absolute value to avoid complex values
-xlabel('Frequency (Hz)');
-ylabel('Cross Power Spectral Density');
+figure;
+plot(Fxy, sk_csk, 'g');
 title('Cross-Spectral Kurtosis (CSK)');
+xlabel('Frequency (Hz)');
+ylabel('Kurtosis');
 grid on;
 
-% 5. Plot Modified Cross-Spectral Kurtosis (MCSK)
 figure;
-plot(F_mcsk, Pxx_mcsk);
-xlabel('Frequency (Hz)');
-ylabel('Power Spectral Density');
+plot(F_mcsk, sk_mcsk, 'k');
 title('Modified Cross-Spectral Kurtosis (MCSK)');
+xlabel('Frequency (Hz)');
+ylabel('Kurtosis');
 grid on;
