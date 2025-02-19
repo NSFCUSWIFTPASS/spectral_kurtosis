@@ -56,7 +56,7 @@ X_power = X_power / max(X_power);
 figure;
 subplot(2,3,1);
 plot(t, signal);
-title('Quadratic Chirp Signal'); xlabel('Time (s)'); ylabel('Amplitude');
+title('Chirp Signal'); xlabel('Time (s)'); ylabel('Amplitude');
 
 subplot(2,3,2);
 xlabel('Method Index');
