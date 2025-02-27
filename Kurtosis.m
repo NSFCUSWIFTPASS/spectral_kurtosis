@@ -58,7 +58,7 @@ disp(dispstr2)
 rfi = rfi_desired;
 noise = norm_noise;
 
-x = rfi + noise;
+x = rfi + noise;    %  All 5 kurtosis methods must be done on 'x'
 
 figure
 
