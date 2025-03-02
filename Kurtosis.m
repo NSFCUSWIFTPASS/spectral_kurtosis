@@ -50,7 +50,7 @@ SNR_multiplier = 10^(desired_SNR_dB/20);
 rfi_desired = norm_rfi.*SNR_multiplier;
 
 S_power_rfi = (rms(rfi_desired).^2)./impedance;
-SNR_dB_check = 10*log10(S_power_rfi/N_power)
+SNR_dB_check = 10*log10(S_power_rfi/N_power);
 
 dispstr2 = ['Final SNR: ', num2str(SNR_dB_check)];
 disp(dispstr2)
