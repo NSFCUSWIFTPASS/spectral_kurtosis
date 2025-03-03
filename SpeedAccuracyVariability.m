@@ -1,3 +1,7 @@
+clc
+clear
+close all
+
 fs = 1000;           % Sampling frequency (Hz)
 duration = 10;      % Duration of signal (seconds)
 num_samples = fs * duration;
@@ -25,8 +29,13 @@ voltage_time = toc(voltage_start);
 
 % 2. Time-Domain Power Kurtosis (Instantaneous Power)
 power_inst_start = tic;
-power_inst = abs(IQ).^2;
-kurt_power_inst = kurtosis(power_inst);
+voltage_deviation = abs(IQ - mean(IQ));
+kurt_voltage = kurtosis(voltage_deviation)
+
+% Vrms = (real(IQ).^2 + imag(IQ).^2) / 2;
+% power_inst = Vrms / 50;
+% kurt_power_inst = kurtosis(power_inst);
+
 power_inst_time = toc(power_inst_start);
 
 % 3. Time-Domain Power Kurtosis (Integrated Power)
@@ -39,6 +48,7 @@ power_integrated_time = toc(power_integrated_start);
 % 4. Traditional Spectral Kurtosis (FFT-based)
 sk_start = tic;
 [skurt, time_direct] = spectral_kurtosis(white_noise, fs);
+% skurt = mean(spectralKurtosis(white_noise, fs, Range=[50,fs/2]));
 sk_time = toc(sk_start);
 
 % Define filter parameters
@@ -101,3 +111,15 @@ fprintf('%-40s %-20.5f\n', 'Instantaneous Power Kurtosis', var_power_inst);
 fprintf('%-40s %-20.5f\n', 'Integrated Power Kurtosis', var_power_integrated);
 fprintf('%-40s %-20.5f\n', 'FFT-based Spectral Kurtosis', var_sk);
 fprintf('%-40s %-20.5f\n', 'Frequency Separated Spectral Kurtosis (FSSK)', var_fssk);
+
+
+[S,F] = pspectrum(white_noise,fs,"spectrogram",OverlapPercent=80);
+
+[sK95,~,~,thresh95] = spectralKurtosis(S,F,Scaled=false);
+
+figure
+plot(F,sK95)
+yline(thresh95*[-1 1])
+grid
+xlabel("Frequency (Hz)")
+title("Spectral Kurtosis of Chirp Signal with White Gaussian Noise")
