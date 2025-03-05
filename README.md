@@ -1,4 +1,4 @@
-# spectral_kutosis
+# spectral_kurtosis
 
 This paper presents a novel method for calculating spectral kurtosis called Frequency Separated Spectral Kurtosis (FSSK) that eliminates the need for Fast Fourier Transform (FFT) by leveraging Software Defined Radio (SDR) technology to directly separate and analyze frequency components. Traditional methods involve converting In-phase and Quadrature (IQ) data using FFT before computing kurtosis, a process that can be computationally intensive and time-consuming. Our approach, however, performs kurtosis analysis on already parsed frequency data, significantly enhancing efficiency.
 
