@@ -1,5 +1,79 @@
-# spectral_kurtosis
+# Spectral Kurtosis for RFI Detection
 
-This paper presents a novel method for calculating spectral kurtosis called Frequency Separated Spectral Kurtosis (FSSK) that eliminates the need for Fast Fourier Transform (FFT) by leveraging Software Defined Radio (SDR) technology to directly separate and analyze frequency components. Traditional methods involve converting In-phase and Quadrature (IQ) data using FFT before computing kurtosis, a process that can be computationally intensive and time-consuming. Our approach, however, performs kurtosis analysis on already parsed frequency data, significantly enhancing efficiency.
+## Overview
 
-The primary advantage of this method is the ability to identify Radio Frequency Interference (RFI) in real time, which is critical for applications requiring immediate RFI detection and mitigation. This experiment captures data from radio frequency (RF) sensors deployed at a radio astronomy site. This evaluation aims to detail the implementation of the new method, compare its performance against traditional techniques, and explore its broader implications for real-time spectral analysis.
+This repository contains code for implementing Frequency Separated Spectral Kurtosis (FSSK), a novel method for calculating spectral kurtosis without the need for Fast Fourier Transform (FFT). The technique, developed as part of our research, enhances real-time detection of Radio Frequency Interference (RFI) using Software Defined Radio (SDR) technology.
+
+The method and its applications are described in our paper published in *Proceedings of Science 2024*:
+
+> **An Evaluation of a New Method of Calculating RFI with Kurtosis**  
+> *Sylvia Llosa, Arvind Aradhya, Kevin Gifford*
+
+## Features
+
+- **Real-time RFI detection** with increased computational efficiency  
+- **Bypasses FFT**, leveraging SDR for direct frequency separation  
+- **Applicable to radio astronomy and communication systems**  
+- **Optimized for Raspberry Pi and other embedded platforms**  
+
+## Installation
+
+### Dependencies
+
+Ensure you have the following installed:
+
+- Python 3.x  
+- NumPy  
+- SciPy  
+- Matplotlib (for visualization)  
+- RTL-SDR drivers (if using an SDR for data acquisition)  
+
+### Setup
+
+```sh
+# Clone the repository
+git clone https://github.com/your-repo/spectral-kurtosis.git
+cd spectral-kurtosis
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+## Usage
+
+### Running the Kurtosis Calculation
+
+```sh
+python run_kurtosis.py --input data/sample_iq_data.npy --output results/kurtosis_output.png
+```
+
+### Real-time Processing with SDR
+
+If using an SDR device:
+
+```sh
+python run_sdr_kurtosis.py --device 0 --freq 915e6 --rate 2e6 --gain 40
+```
+
+## Methodology
+
+Traditional spectral kurtosis calculations rely on FFT to convert IQ data into the frequency domain before analysis. Our method instead applies kurtosis analysis directly on separated frequency components obtained from an SDR, significantly reducing computational overhead.
+
+## Example Results
+
+After running the script, you should see output like:
+
+```
+Processing data...
+Computing spectral kurtosis...
+Analysis complete. Results saved to results/kurtosis_output.png
+```
+
+## References
+
+- [Proceedings of Science 2024 - An Evaluation of a New Method of Calculating RFI with Kurtosis](https://pos.sissa.it/)  
+
+## License
+
+This code is licensed under the MIT License. See `LICENSE` for details.
+
