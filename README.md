@@ -57,13 +57,4 @@ python run_sdr_kurtosis.py --device 0 --freq 915e6 --rate 2e6 --gain 40
 
 ## Methodology
 
-Traditional spectral kurtosis calculations rely on FFT to convert IQ data into the frequency domain before analysis. Our method instead applies kurtosis analysis directly on separated frequency components obtained from an SDR, significantly reducing computational overhead.
-
-## References
-
-- [Proceedings of Science 2024 - An Evaluation of a New Method of Calculating RFI with Kurtosis](https://pos.sissa.it/)  
-
-## License
-
-This code is licensed under the MIT License. See `LICENSE` for details.
-
+Traditional spectral kurtosis calculations rely on FFT to convert IQ data into the frequency domain before analysis. Our method instead applies kurtosis analysis directly on separated frequency components obtained from an SDR, significantly reducing computational overhead. 
