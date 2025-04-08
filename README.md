@@ -22,11 +22,7 @@ The method and its applications are described in our paper published in *Proceed
 
 Ensure you have the following installed:
 
-- Python 3.x  
-- NumPy  
-- SciPy  
-- Matplotlib (for visualization)  
-- RTL-SDR drivers (if using an SDR for data acquisition)  
+MATLAB (or run in MATLAB browser)
 
 ### Setup
 
@@ -34,26 +30,23 @@ Ensure you have the following installed:
 # Clone the repository
 git clone https://github.com/your-repo/spectral-kurtosis.git
 cd spectral-kurtosis
-
-# Install dependencies
-pip install -r requirements.txt
 ```
 
 ## Usage
 
+**Kurtosis.m**  : main file for simulated experiements  
+**FiveMethods/SpectrualKurtosisMethods.m**: Test code for the five methods of spectral kurtosis  
+**ROC_curves**: Test code for creating Receiver Operating Characteristic (ROC) plots  
+**spectral_kurtosis_example.m**: Test code for creating signal environment and using builtin spectral kurtosis functions  
+**kurtosisHistograms.m**: Used to generate histograms for paper  
+**SpeedAccuracyVariability.m**: used to measure the exections times of each method  
+
 ### Running the Kurtosis Calculation
-
+matlab console enter 'matlab_filename'
 ```sh
-python run_kurtosis.py --input data/sample_iq_data.npy --output results/kurtosis_output.png
+Kurtosis
 ```
 
-### Real-time Processing with SDR
-
-If using an SDR device:
-
-```sh
-python run_sdr_kurtosis.py --device 0 --freq 915e6 --rate 2e6 --gain 40
-```
 
 ## Methodology
 
